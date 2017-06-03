@@ -44,7 +44,7 @@ Y.cluster <- t(apply(X.cluster, 1, function(x) x - mean(x)))
 X.est.cluster <- huge(X.cluster, method = "glasso", nlambda = 30, lambda.min.ratio = 1/100)
 Y.est.cluster <- huge(Y.cluster, method = "glasso", nlambda = 30, lambda.min.ratio = 1/100)
 X.pr.cluster <- precisionRecall(X.est.cluster, g.cluster)
-Y.pr.cluster <- precisionRecall(Y.est.cluster, g.band)
+Y.pr.cluster <- precisionRecall(Y.est.cluster, g.cluster)
 
 cov.scalefree[1,1] <- M * cov.scalefree[1,1]
 min(eigen(cov.scalefree)$values)
@@ -53,7 +53,7 @@ Y.scalefree <- t(apply(X.scalefree, 1, function(x) x - mean(x)))
 X.est.scalefree <- huge(X.scalefree, method = "glasso", nlambda = 30, lambda.min.ratio = 1/100)
 Y.est.scalefree <- huge(Y.scalefree, method = "glasso", nlambda = 30, lambda.min.ratio = 1/100)
 X.pr.scalefree <- precisionRecall(X.est.scalefree, g.scalefree)
-Y.pr.scalefree <- precisionRecall(Y.est.scalefree, g.band)
+Y.pr.scalefree <- precisionRecall(Y.est.scalefree, g.scalefree)
 
 pdf("plots/var-dom-band.pdf", width = 16, height = 6)
 par(mfrow = c(1,3), cex = 1.6)
