@@ -19,15 +19,11 @@
 
 \title{Limitations of Graph Selection from High-Dimensional Compositional Data}
 \author{Camden Lopez \\ Master's Project Report \\ Department of Statistics, Oregon State University}
-\date{May 30, 2017}
+\date{May 30, 2017 \\ Corrected June 5, 2017}
 
 \begin{document}
 \pagenumbering{gobble}
 \maketitle
-
-%\begin{abstract}
-%Microbial abundance data produced by high-throughput genomic sequencing techniques such as 16S amplicon sequencing can be used to investigate ecological relationships among microbes. The data require special methods for analysis because they are both compositional and high-dimensional. One recently proposed method infers conditional dependence relationships within a microbial community based on log-ratio transformed abundances and graph selection via graphical lasso or neighborhood selection. The method relies on the covariance matrix for the log-ratio transformed data being approximately equal to the covariance matrix for the log-absolute abundances. Two limitations of using compositional data in this setting are that any given covariance structure for the log-ratio transformed abundances could correspond to a wide range of log-absolute abundance covariances representing diverse conditional dependence relationships, and some log-absolute abundance covariance structures can result in misleading graph inferences based on the log-ratio data.
-%\end{abstract}
 
 \clearpage
 \setcounter{page}{1}
@@ -98,24 +94,6 @@ A somewhat more natural parameterization is in terms of the absolute-abundance v
 \omega_{ij} = \gamma_{ij} + \frac{1}{2}(\omega_{ii} - \gamma_{ii} + \omega_{jj} - \gamma_{jj})
 \end{equation}
 
-%
-%Let $\mathcal{S}_p$ be the set of symmetric $p \times p$ matrices with real entries, which is a space with $p(p+1)/2$ dimensions. Let $\mathrm{T}_p: \mathcal{S}_p \rightarrow \mathcal{S}_p$ be the transformation defined by $\mathrm{T}_p(\Omega) = \mathrm{G} \Omega \mathrm{G}$. $\mathrm{T}_p$ is a linear transformation with rank $p(p-1)/2$. For each $\Gamma$ representing the covariance matrix for clr-transformed abundances, there is not a unique $\Omega$ for which $\Gamma = \mathrm{T}_p(\Omega)$ but rather a $p$-dimensional space of such $\Omega$ matrices. We can characterize that space with the kernel of $\mathrm{T}_p$, $\ker(\mathrm{T}_p) = \{\Psi \in \mathcal{S}_p: \mathrm{G} \Psi \mathrm{G} = 0_{p \times p}\}$, which, it turns out, consists of matrices with the property that the $(i,j)$ entry is equal to the average of the $i$th diagonal and the $j$th diagonal entries.
-%\begin{equation}
-%\label{e:ker}
-%\ker(\mathrm{T}_p) = \left\{ \Psi \in \mathcal{S}_p: \psi_{ij} = \frac{1}{2}(\psi_{ii} + \psi_{jj})\right\}
-%\end{equation}
-%For any $\Omega \in \mathcal{S}_p$ and $\Psi \in \ker(\mathrm{T}_p)$, $\mathrm{T}_p(\Omega + \Psi) = \mathrm{T}_p(\Omega) + 0^{p \times p}  = \Gamma$. So for a given $\Omega$ or $\Gamma = \mathrm{T}_p(\Omega)$, the set of all matrices which $\mathrm{T}_p$ sends to the same $\Gamma$ is characterized by adding to $\Omega$ or $\Gamma$ any $p \times p$ matrix with entries equal to the average of the corresponding diagonal entries.
-%
-%The only assumption about the matrices so far has been that they are symmetric. Since only valid covariance matrices are of interest, the space of matrices sent to the same $\Gamma$ must be restricted to positive definite or positive semi-definite matrices.
-%
-%With a compositional data set in hand, $\hat{\Gamma}$ can be calculated and used to infer a graph via graphical lasso (or neighborhood selection). The limitation of having compositional data rather than absolute abundance data shows up in the fact that $\hat{\Gamma}$ could correspond to infinitely many covariance matrices for the log-absolute abundance data, were it available. Equation (\ref{e:ker}) provides a way to explore those potential log-absolute abundance covariances, provided that one makes sure each potential $\hat{\Omega}$ is positive (semi-)definite.
-%
-%For a given $\Gamma$ or $\Omega$, let $\Sigma$ be in the set of matrices such that $\mathrm{T}_p(\Sigma) = \mathrm{T}_p(\Omega) = \Gamma$. It will be convenient to be able to choose some hypothetical log-abundance variances $\sigma_{11}, \dots, \sigma_{pp}$ and calculate the remaining entries of $\Sigma$ required so that $\mathrm{T}_p(\Sigma) = \Gamma$. Using the fact that $\Sigma = \Gamma + \Psi$ for some $\Psi \in \ker(\mathrm{T}_p)$, we have $\Psi = \Sigma - \Gamma$, which implies that $\psi_{ii} = \sigma_{ii} - \gamma_{ii}$ and $\psi_{ij} = \frac{1}{2}\left[(\sigma_{ii} - \gamma_{ii}) + (\sigma_{jj} - \gamma_{jj})\right]$. Then
-%\begin{equation}
-%\label{e:sigentry}
-%\sigma_{ij} = \gamma_{ij} + \frac{1}{2}(\sigma_{ii} - \gamma_{ii} + \sigma_{jj} - \gamma_{jj})
-%\end{equation}
-
 To put this in matrix form, let $d = (\omega_{11} - \gamma_{11}, \dots, \omega_{pp} - \gamma_{pp})$ and let $\mathrm{R}$ be the matrix with $p$ rows identical to $d$ and $\mathrm{C}$ be the matrix with $p$ columns identical to $d^\mathrm{T}$. Then
 \begin{equation}
 \label{e:omegamatrix}
@@ -142,8 +120,6 @@ When $\Omega$ is $2 \times 2$, $\Omega$ is positive definite if and only if $\de
 \end{equation}
 Positive semi-definiteness occurs on the boundary of this region.
 
-%The intuitive reason for there being bounds for $\omega_{22}$, given $\omega_{11}$, and vice-versa, is that given $\gamma_{11}$, we know that the differences $\log X_1 - \log X_2$ have a certain amount of variation. Suppose we hypothesize a large value for $\omega_{11} = \var(\log X_1)$. We can imagine setting the geometric mean $g(X) = \frac{1}{2}(\log X_1 + \log X_2)$ of each sample to achieve that variation in $\log X_1$. But the $\log X_2$ values are ``tied" to the $\log X_1$ values to a degree characterized by $\gamma_{11}$. A large variance in $\log X_1$ will require that there is large variance in $\log X_2$ also. If we hypothesize $\omega_{11}$ to be smaller, then $\omega_{22}$ can be smaller also.
-
 The region where $\Omega$ is positive definite is plotted in Figure \ref{f:regions} for two values of $\gamma_{11}$. We can ask of this region of alternative covariance matrices, where in the region is the relationship between $\log w_1$ and $\log w_2$ positive or negative? Where are $\log w_1$ and $\log w_2$ independent? In the $p = 2$ case, the conditional and unconditional dependence relationships between $\log w_1$ and $\log w_2$ are the same, so we can simply examine $\omega_{12}$. From equation (\ref{e:sig12}), we find that the boundary between the regions where $\omega_{12} < 0$ and $\omega_{12} > 0$ is the line $\omega_{22} = 4\gamma_{11} - \omega_{11}$. We can compare that line to the ``vertex" of the region, $(\gamma_{11}, \gamma_{11})$, which is found by solving for the point where the lower boundary intersects $\omega_{22} = \omega_{11}$. The vertex corresponds to $\Omega = \Gamma$. As shown in Figure \ref{f:regions}, for any $\gamma_{11}$, there are always regions where $\omega_{12} < 0$, $\omega_{12} = 0$, and $\omega_{12} > 0$.
 
 \begin{figure}
@@ -163,9 +139,11 @@ Near or at the boundary of the region, the correlation is near or equal to $\pm 
 
 Characterizing the region where $\Omega$ is positive definite is more difficult with $p > 2$, but the region can be explored for a particular $\Gamma$ by trial-and-error, choosing values for $\omega_{11}, \dots, \omega_{pp}$ and checking whether the minimum eigenvalue of $\Omega$ is positive (indicating positive definiteness).
 
-Based on my investigation of several typical cases with moderately large $p$, it appears that $\Omega$ is positive definite for $(\omega_{11}, \dots, \omega_{pp}) = (\gamma_{11} + \delta, \dots, \gamma_{pp} + \delta)$ with any $\delta > 0$. For very small $\delta$, the entries of $\Omega^{-1}$ are all or nearly all negative, corresponding to positive conditional relationships. As $\delta$ increases, the entries of $\Omega^{-1}$ become all or nearly all positive, corresponding to negative conditional relationships. This pattern is similar to the pattern found in the $p = 2$ case.
+Based on my investigation of several typical cases with moderately large $p$, it appears that $\Omega$ is positive definite for $(\omega_{11}, \dots, \omega_{pp}) = (\gamma_{11} + \delta, \dots, \gamma_{pp} + \delta)$ with any $\delta > 0$. For very small $\delta$, the off-diagonal entries of $\Omega$ are all or nearly all negative. As $\delta$ increases, the entries become all or nearly all positive. This pattern is similar to the pattern found in the $p = 2$ case.
 
 It also appears to be true for larger $p$ that for fixed values of all $\omega_{ii}$ except one, say $\omega_{jj}$, $\Omega$ is positive definite only for a fairly small interval of $\omega_{jj}$ values.
+
+The structure of $\Omega^{-1}$ appears to be stable over much of the region of positive definite $\Omega$ matrices. The partial correlations implied by $\Omega^{-1}$ vary little across $\Omega$ matrices sufficiently far from the boundary of that region. However, near the boundary of the region, where $\Omega$ becomes nearly singular, the partial correlations can change dramatically. Exactly how the partial correlations change, and how it relates to the hypothetical variances $\omega_{11}, \dots, \omega_{pp}$, needs more investigation.
 
 What can be learned from these investigations is that for any given $\Gamma$ (or $\hat{\Gamma}$), there are potential log-absolute abundance covariance matrices which exhibit a wide variety of conditional and unconditional relationships, all resulting in the same $\Gamma$. What one would hope is that any valid $\Omega$ which is substantially different from $\Gamma$ represents an implausible covariance structure, and that any $\Omega$ which is plausible is also very similar to $\Gamma$, so that when graph selection is applied to the estimate of $\Gamma$, the inferences are similar to what one would obtain if the absolute abundances were available. However, one may have little idea about which covariance structures are plausible or not. The results here demonstrate a fundamental limitation of compositional data for inferring relationships among absolute abundances.
 
@@ -234,7 +212,7 @@ Under these conditions, where the variance of $\sum_{i=1}^p \log w_i$ is dominat
 
 \subsection*{Conclusion}
 
-Compositional data derived from absolute abundances are fundamentally limited in the information they provide about the absolute abundances. Any analysis which is based on covariances in the compositional data, as is the case with the graph selection method considered here, must be used with the recognition that covariances in the compositional data may differ substantially from covariances in the absolute abundances. I have shown that a variety of absolute abundance covariance structures exhibiting very different types of relationships can result in the same covariance structure in the clr-transformed compositional data.
+Compositional data derived from absolute abundances are fundamentally limited in the information they provide about the absolute abundances. Any analysis which is based on covariances in the compositional data, as is the case with the graph selection method considered here, must be used with the recognition that covariances in the compositional data may differ substantially from covariances in the absolute abundances. I have found that a variety of absolute abundance covariance structures exhibiting very different types of relationships can result in the same covariance structure in the clr-transformed compositional data.
 
 Based on simulations, graph selection using clr-transformed compositional data works as well as (and occasionally even better than) the graph selection that would result from the log abundances for large $p$, provided that the compositional effect is not too strong. Strong compositional effects result when, for example, one component or a group of components dominates the variance of the total abundance. Information about the total abundance is lost when absolute abundances become compositional, so whenever total abundance strongly depends on the abundance patterns of a subset of components, graph selection may perform poorly. If variances do not differ much and strong covariances are sparse, then moderate-to-large $p$ appears to be sufficient for the compositional effects to be diminished or negligible.
 
