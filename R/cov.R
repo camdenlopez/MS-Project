@@ -1,3 +1,5 @@
+library(corpcor)
+
 # Convert log abundance covariance matrix to clr covariance matrix
 omegaToGamma <- function(omega) {
   p <- ncol(omega)
@@ -71,4 +73,15 @@ posDefRange <- function(omega, idx, step = 1e-1, tol = 1e-4) {
       UL <- (UL + UU) / 2
   }
   c(LU, UL)
+}
+
+# Plot partial correlations for a covariance matrix
+# as a color matrix
+plotPCor <- function(omega, ...) {
+  p <- ncol(omega)
+  pcor <- cor2pcor(omega)
+  image(x = 0:p, y = 0:p, z = pcor, zlim = c(-1, 1),
+        col = c(hsv(h = 0, s = seq(1, 0.1, -0.1), v = 1),
+                hsv(h = 2/3, s = seq(0, 1, 0.1), v = 1)),
+        xlab = "", ylab = "")
 }
