@@ -3,5 +3,9 @@
 *.bbl
 *.blg
 *.log
+*.nav
+*.out
+*.snm
+*.toc
 *.synctex.gz
 *.Rhistory
