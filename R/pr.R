@@ -3,8 +3,9 @@ precisionRecall <- function(est, graph) {
   pr <- sapply(1:length(est$lambda), function(i) {
     E <- as.matrix(est$path[[i]])[upper.tri(as.matrix(est$path[[i]]))]
     G <- as.matrix(graph)[upper.tri(as.matrix(graph))]
-    sum(E * G) / c(sum(G), sum(E))
+    c(sum(E * G) / c(sum(G), sum(E)), est$lambda[i])
   })
+  rownames(pr) <- c("recall", "precision", "lambda")
   pr <- pr[,!is.na(pr[1,]) & !is.na(pr[2,])]
 }
 

@@ -77,6 +77,7 @@ posDefRange <- function(omega, idx, step = 1e-1, tol = 1e-4) {
 plotCor <- function(cor, ...) {
   p <- ncol(cor)
   image(x = 0:p, y = 0:p, z = cor, zlim = c(-1, 1),
+        xaxt = "n", yaxt = "n",
         col = c(hsv(h = 0, s = seq(1, 0.01, -0.01), v = 1),
                 hsv(h = 2/3, s = seq(0, 1, 0.01), v = 1)),
         xlab = "", ylab = "")
