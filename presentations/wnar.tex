@@ -3,6 +3,7 @@
 \usepackage{FiraSans}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{appendixnumberbeamer} 
 
 \setbeamercolor{background canvas}{bg=white}
 \setlength{\parskip}{1em}
@@ -92,7 +93,7 @@ OTU = operational taxonomic unit
 \begin{column}{0.6\textwidth}
 \begin{itemize}
 \item \textbf{Observe} $W \times\,? \rightarrow \log W +\,?$
-\item \textbf{Centering} samples $\rightarrow \clr W$
+\item \textbf{Centering} $\log W +\,? \rightarrow \clr W$
 \item \textbf{Assumption}: $\cov(\clr W) = \Gamma \approx \Omega = \cov(\log W)$
 \item \textbf{Graphical model inference}: \\ $\widehat{\Gamma} \rightarrow \widehat{\Omega^{-1}}$ (graphical lasso, e.g.)
 \end{itemize}
@@ -194,7 +195,7 @@ $\Gamma \not\approx \Omega$
 \begin{frame}{Covariance relationships and properties}
 \textbf{Relationships can vary among potential $\Omega$s}
 \begin{itemize}
-\item Somewhat constrained, more so with larger $p$
+\item Somewhat constrained, but not entirely
 \end{itemize}
 \textbf{Example} ($p = 24$, {\color{red} red} = negative, {\color{blue} blue} = positive)
 \begin{columns}
@@ -216,7 +217,7 @@ Graph (24 edges)
 \begin{frame}{Covariance relationships and properties}
 \textbf{Relationships can vary among potential $\Omega$s}
 \begin{itemize}
-\item Somewhat constrained, more so with larger $p$
+\item Somewhat constrained, but not entirely
 \end{itemize}
 \textbf{Example} ($p = 24$, {\color{red} red} = negative, {\color{blue} blue} = positive)
 \begin{columns}
@@ -238,7 +239,7 @@ Graph (24 edges)
 \begin{frame}{Covariance relationships and properties}
 \textbf{Relationships can vary among potential $\Omega$s}
 \begin{itemize}
-\item Somewhat constrained, more so with larger $p$
+\item Somewhat constrained, but not entirely
 \end{itemize}
 \textbf{Example} ($p = 24$, {\color{red} red} = negative, {\color{blue} blue} = positive)
 \begin{columns}
@@ -260,7 +261,7 @@ Graph (24 edges)
 \begin{frame}{Covariance relationships and properties}
 \textbf{Relationships can vary among potential $\Omega$s}
 \begin{itemize}
-\item Somewhat constrained, more so with larger $p$
+\item Somewhat constrained, but not entirely
 \end{itemize}
 \textbf{Example} ($p = 24$, {\color{red} red} = negative, {\color{blue} blue} = positive)
 \begin{columns}
@@ -387,5 +388,71 @@ Graph & Data = log & Data = clr \\
 \item Yuan Jiang, Duo Jiang, Sarah Emerson (Statistics)
 \item Thomas Sharpton (Microbiology and Statistics)
 \end{itemize}
+\end{frame}
+
+\appendix
+
+\begin{frame}{Centered log-ratio transformation}
+Given sample $x = (x_1, \dots, x_p)$ with geometric mean $g(x) = (\prod_{i=1}^p x_i)^{\frac{1}{p}}$,
+\begin{align*}
+\clr(x) &= \left( \log \frac{x_1}{g(x)}, \dots, \log \frac{x_p}{g(x)} \right) \\
+&= \left( \log x_1 - \frac{1}{p} \sum_{i=1}^p \log x_i, \dots, \log x_p - \frac{1}{p} \sum_{i=1}^p \log x_i \right)
+\end{align*}
+and for $c > 0$,
+\begin{equation*}
+\clr(cx) = \clr(x)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Covariance relationships}
+\textbf{Matrix form}:
+\begin{align*}
+\clr W &= \text{G} \log W \\
+\text{G} &=
+\begin{pmatrix}
+1-\frac{1}{p} & \dots & -\frac{1}{p} \\
+\vdots & \ddots & \vdots \\
+-\frac{1}{p} & \dots & 1-\frac{1}{p}
+\end{pmatrix} \\
+\Rightarrow \cov(\clr W) &= \text{G} \cov(\log W) \text{G} \\
+\Rightarrow \Gamma &= \text{G} \Omega \text{G}
+\end{align*}
+\end{frame}
+
+\begin{frame}{Graphical lasso estimation of $\Omega^{-1}$}
+\begin{align*}
+\widehat{\Omega^{-1}}_{\text{glasso}} &= \argmax_{\Omega^{-1} \succeq 0} \left[ \log \det(\Omega^{-1}) - \tr({\color{blue} \widehat{\Omega}} \Omega^{-1}) - \lambda \lVert \Omega^{-1} \rVert_1 \right] \\
+\widehat{\Omega^{-1}}_{\text{SPIEC-EASI}} &= \argmax_{\Omega^{-1} \succeq 0} \left[ \log \det(\Omega^{-1}) - \tr({\color{blue} \widehat{\Gamma}} \Omega^{-1}) - \lambda \lVert \Omega^{-1} \rVert_1 \right]
+\end{align*}
+\end{frame}
+
+\begin{frame}{Solving for potential $\Omega$}
+\textbf{Option 1}: Choose $\overline{\omega}_{1\cdot}, \dots, \overline{\omega}_{p\cdot}$
+\begin{align*}
+\gamma_{ij} &= \omega_{ij} - \overline{\omega}_{i \cdot} - \overline{\omega}_{\cdot j} + \overline{\omega}_{\cdot \cdot} \\
+\Rightarrow \omega_{ij} &= \gamma_{ij} + \overline{\omega}_{i \cdot} + \overline{\omega}_{\cdot j} - \overline{\omega}_{\cdot \cdot}
+\end{align*}
+\textbf{Option 2}: Choose $\omega_{11}, \dots, \omega_{pp}$
+\begin{equation*}
+\omega_{ij} = \gamma_{ij} + \frac{1}{2}\left( \omega_{ii} - \gamma_{ii} + \omega_{jj} - \gamma_{jj}\right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Graphs used in simulations}
+$p = 64$, $e = p - 1$
+\begin{center}
+\includegraphics[width=300px]{figs/graphs-64.pdf}
+\end{center}
+\begin{columns}
+\begin{column}{0.3\textwidth}
+\centering Band
+\end{column}
+\begin{column}{0.3\textwidth}
+\centering Cluster
+\end{column}
+\begin{column}{0.3\textwidth}
+\centering Scale-free
+\end{column}
+\end{columns}
 \end{frame}
 \end{document}
