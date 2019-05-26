@@ -9,3 +9,5 @@
 *.toc
 *.synctex.gz
 *.Rhistory
+*.RData
+2019/data/*.txt
